@@ -20,10 +20,10 @@ __author__ = 'Marcel Caraciolo'
 __version__ = '0.2'
 
 
-import urllib
-import httplib
+import urllib.request, urllib.parse, urllib.error
+import http.client
 import json
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 ERROR_STATUS = {
     # "200: "OK: Success", IS A GOOD STATUS
@@ -101,8 +101,8 @@ class Klout(object):
             query['key'] = self._api_key
 
         body = self._remove_empty_params(body)
-        query_str = urllib.urlencode(query)
-        body_str = urllib.urlencode(body)
+        query_str = urllib.parse.urlencode(query)
+        body_str = urllib.parse.urlencode(body)
 
         if len(query) > 0:
             if url.find('?') == -1:
@@ -110,7 +110,7 @@ class Klout(object):
             else:
                 url = url + '&' + query_str    
         try:
-            conn = httplib.HTTPConnection(self.API_URL)
+            conn = http.client.HTTPConnection(self.API_URL)
             if body_str:
                 conn.request('POST', url, body_str)
             else:
@@ -118,7 +118,7 @@ class Klout(object):
             resp = conn.getresponse()
             data = resp.read()
             data = json.loads(data)
-        except httplib.HTTPException as err:
+        except http.client.HTTPException as err:
             msg = err.read() or ERROR_STATUS.get(err.code, err.message)
             raise KloutError(err.code, msg)
         except ValueError:

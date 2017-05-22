@@ -18,7 +18,7 @@
 
 
 from setuptools import setup
-import pyklout
+from . import pyklout
 
 name = "pyklout"
 

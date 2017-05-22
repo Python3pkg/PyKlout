@@ -1,6 +1,6 @@
 import unittest
 
-from pyklout import Klout, KloutError
+from .pyklout import Klout, KloutError
 
 
 class TestKlout(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestKlout(unittest.TestCase):
         user_id = data['id']
         data = api.topics(user_id)
         for topic in data:
-            for key in topic.keys():
+            for key in list(topic.keys()):
                 self.assert_(key in ['imageUrl','slug','displayName', 'id', 'name'])
 
 
